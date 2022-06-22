@@ -1,0 +1,37 @@
+{
+email   you@example.com 
+}
+jellyfin.home.com {
+    encode gzip
+        log {
+            output file /etc/caddy/jellyfin_access.log {
+                roll_size_mb 5          # Set max size 5 MB
+                roll_keep 2             # Keep at most 2 log files
+                roll_keep_days 7        # Keep log files for 7 days
+            }
+        }
+    reverse_proxy 192.168.1.20:8096
+}
+homer.home.com {
+    encode gzip
+        log {
+            output file /etc/caddy/proxmox_access.log {
+                roll_size_mb 5          # Set max size 5 MB
+                roll_keep 2             # Keep at most 2 log files
+                roll_keep_days 7        # Keep log files for 7 days
+            }
+        }
+    reverse_proxy 192.168.1.30:8080
+}
+# Add http:// to prevent caddy from requesting SSL certificates from Letsencrypt for this url
+http://portainer.home.com {
+    encode gzip
+        log {
+            output file /etc/caddy/portainer_access.log {
+                roll_size_mb 5          # Set max size 5 MB
+                roll_keep 2             # Keep at most 2 log files
+                roll_keep_days 7        # Keep log files for 7 days
+            }
+        }
+    reverse_proxy 192.168.1.5:9000
+}
