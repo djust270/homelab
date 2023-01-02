@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server
+    build:
+      context: vaultwarden
+      args:
+        DB: mysql
+    restart: always
+    ports:
+      - 80:80
+      - 3012:3012
+    volumes:
+      - ./vw-data:/data
+    environment:
+      WEBSOCKET_ENABLED: 'true' # Required to use websockets
+      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
+      DOMAIN: 'domain.com'
+      SMTP_HOST: '******'
+      SMTP_FROM: '******'
+      SMTP_PORT: '587'
+      SMTP_SSL: 'true'
+      SMTP_USERNAME: '******'
+      SMTP_PASSWORD: '******'
+      ADMIN_TOKEN: '******'
+#      YUBICO_CLIENT_ID: '[OPTIONAL]'
+#      YUBICO_SECRET_KEY: '[OPTIONAL]'
